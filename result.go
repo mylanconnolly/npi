@@ -21,7 +21,7 @@ type Basic struct {
 	Credential      string `json:"credential"`
 	FirstName       string `json:"first_name"`
 	LastName        string `json:"last_name"`
-	MiddleNmae      string `json:"middle_name"`
+	MiddleName      string `json:"middle_name"`
 	Name            string `json:"name"`
 	Gender          string `json:"gender"`
 	SoleProprietor  string `json:"sole_proprietor"`  // Should this get changed to a bool?
