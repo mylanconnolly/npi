@@ -7,11 +7,12 @@ type listResult struct {
 
 // Result is used to represent an NPI lookup result.
 type Result struct {
-	Number           int    `json:"number"`
-	CreatedEpoch     int    `json:"created_epoch"`
-	LastUpdatedEpoch int    `json:"last_updated_epoch"`
-	EnumerationType  string `json:"enumeration_type"`
-	Basic            Basic  `json:"basic"`
+	Number           int       `json:"number"`
+	CreatedEpoch     int       `json:"created_epoch"`
+	LastUpdatedEpoch int       `json:"last_updated_epoch"`
+	EnumerationType  string    `json:"enumeration_type"`
+	Basic            Basic     `json:"basic"`
+	Addresses        []Address `json:"addresses"`
 	// TODO: Implement addresses and taxonomies
 }
 
@@ -36,4 +37,28 @@ type Identifier struct {
 	State       string `json:"state"`
 	Identifier  string `json:"identifier"`
 	Description string `json:"desc"`
+}
+
+// Address is used to represent an address in the NPI record.
+type Address struct {
+	Address1    string `json:"address_1"`
+	Address2    string `json:"address_2"`
+	City        string `json:"city"`
+	State       string `json:"state"`
+	ZIP         string `json:"postal_code"`
+	Phone       string `json:"telephone_number"`
+	Fax         string `json:"fax_number"`
+	AddressType string `json:"address_type"`
+	Purpose     string `json:"address_purpose"`
+}
+
+// GetAddress is used to fetch the address with the given purpose, as well as a
+// boolean flag to denote whether it was found or not.
+func (r Result) GetAddress(purpose string) (Address, bool) {
+	for _, a := range r.Addresses {
+		if a.Purpose == purpose {
+			return a, true
+		}
+	}
+	return Address{}, false
 }
