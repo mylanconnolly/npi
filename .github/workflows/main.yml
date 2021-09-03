@@ -1,0 +1,27 @@
+name: Ruby
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        ruby: ['2.7', '3.0', 'truffleruby']
+        exclude:
+          - os: windows-latest
+            ruby: truffleruby
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+
+    - name: Run the tests
+      run: bundle exec rspec
